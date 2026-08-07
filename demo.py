@@ -4,3 +4,11 @@ def play_with_friends(friends:[str]):
 
 
 play_with_friends(["John", "Mary", "Jane"])
+play_with_friends(["John", "Mary", "Jane"])
+play_with_friends(["John", "Mary", "Jane"])
+play_with_friends(["John", "Mary", "Jane"])
+play_with_friends(["John", "Mary", "Jane"])
+play_with_friends(["John", "Mary", "Jane"])
+play_with_friends(["John", "Mary", "Jane"])
+play_with_friends(["John", "Mary", "Jane"])
+play_with_friends(["John", "Mary", "Jane"])
