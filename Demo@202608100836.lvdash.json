@@ -30,6 +30,45 @@
         ") select FirstCharacter,count(FirstCharacter) from result group by firstcharacter\r\n",
         "order by count(firstcharacter) desc"
       ]
+    },
+    {
+      "name": "025948d5",
+      "displayName": "First_Name_Count",
+      "queryLines": [
+        "select firstName FirstName,COunt(firstName) CountOfFirstName from students group by firstName order by CountOfFirstName desc"
+      ]
+    },
+    {
+      "name": "a24b89d8",
+      "displayName": "Gender_Count",
+      "queryLines": [
+        "select gender,count(gender) as gender_count from students group by gender order by gender_count desc"
+      ]
+    },
+    {
+      "name": "f60aed1c",
+      "displayName": "Yearly_Average_Salary",
+      "queryLines": [
+        "select \r\n",
+        "    enrollmentYear as EnrollYear,\r\n",
+        "    ceiling(avg(salary)) as AverageSalary \r\n",
+        "from students \r\n",
+        "group by enrollmentYear \r\n",
+        "order by enrollmentYear "
+      ]
+    },
+    {
+      "name": "f81b3c37",
+      "displayName": "Major_Yearly_Average_Gpa",
+      "queryLines": [
+        "select \r\n",
+        "    Major,\r\n",
+        "    EnrollmentYear as EnrollYear,\r\n",
+        "    round(avg(gpa),3) as AverageGpa \r\n",
+        "from students \r\n",
+        "group by major,enrollmentYear \r\n",
+        "order by major,enrollmentYear "
+      ]
     }
   ],
   "pages": [
@@ -61,8 +100,23 @@
             ],
             "spec": {
               "version": 3,
+              "mark": {
+                "colors": [
+                  "#2E7D32",
+                  "#388E3C",
+                  "#43A047",
+                  "#4CAF50",
+                  "#66BB6A",
+                  "#81C784",
+                  "#A5D6A7",
+                  "#C8E6C9",
+                  "#1B5E20",
+                  "#00796B"
+                ]
+              },
               "frame": {
-                "showTitle": false
+                "showTitle": false,
+                "title": "z"
               },
               "widgetType": "pie",
               "encodings": {
@@ -70,20 +124,17 @@
                   "fieldName": "measure(count)",
                   "scale": {
                     "type": "quantitative"
-                  }
+                  },
+                  "displayName": "Ratio Of Enrollment Year"
                 },
                 "color": {
                   "fieldName": "enrollmentYear",
+                  "legend": {
+                    "position": "bottom",
+                    "title": "Enroll"
+                  },
                   "scale": {
-                    "type": "quantitative",
-                    "colorRamp": {
-                      "mode": "single-hue",
-                      "baseColor": {
-                        "themeColorType": "visualizationColors",
-                        "position": 1
-                      }
-                    },
-                    "reverse": false
+                    "type": "categorical"
                   }
                 },
                 "label": {
@@ -98,7 +149,7 @@
           "position": {
             "x": 0,
             "y": 0,
-            "width": 6,
+            "width": 3,
             "height": 6
           }
         },
@@ -111,6 +162,10 @@
                 "query": {
                   "datasetName": "c502625c",
                   "fields": [
+                    {
+                      "name": "sum(age)",
+                      "expression": "SUM(`age`)"
+                    },
                     {
                       "name": "age",
                       "expression": "`age`"
@@ -126,18 +181,71 @@
             ],
             "spec": {
               "version": 3,
+              "mark": {
+                "colors": [
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 3
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 2
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 3
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 4
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 5
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 6
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 7
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 8
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 9
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 10
+                  }
+                ]
+              },
               "widgetType": "bar",
               "encodings": {
                 "x": {
                   "fieldName": "age",
                   "displayName": "Student Age",
                   "scale": {
-                    "type": "quantitative"
+                    "type": "categorical"
                   }
                 },
                 "y": {
                   "fieldName": "measure(count)",
                   "displayName": "Count Of Separate Age",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "sum(age)",
+                  "legend": {
+                    "hide": true
+                  },
                   "scale": {
                     "type": "quantitative"
                   }
@@ -154,7 +262,7 @@
           "position": {
             "x": 6,
             "y": 0,
-            "width": 6,
+            "width": 3,
             "height": 6
           }
         },
@@ -182,6 +290,9 @@
             ],
             "spec": {
               "version": 3,
+              "frame": {
+                "showTitle": false
+              },
               "mark": {
                 "colors": [
                   {
@@ -258,9 +369,432 @@
             "width": 6,
             "height": 6
           }
+        },
+        {
+          "widget": {
+            "name": "01556c3c",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "025948d5",
+                  "fields": [
+                    {
+                      "name": "CountOfFirstName",
+                      "expression": "`CountOfFirstName`"
+                    },
+                    {
+                      "name": "FirstName",
+                      "expression": "`FirstName`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "showTitle": false
+              },
+              "mark": {
+                "colors": [
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 3
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 2
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 3
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 4
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 5
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 6
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 7
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 8
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 9
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 10
+                  }
+                ]
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "FirstName",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "CountOfFirstName",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "label": {
+                  "show": false
+                },
+                "extra": [
+                  {
+                    "fieldName": "CountOfFirstName"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            },
+            "specExtensions": {
+              "widgetBackgroundColor": {
+                "dark": "#052642"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 6,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "b28982d0",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "a24b89d8",
+                  "fields": [
+                    {
+                      "name": "gender_count",
+                      "expression": "`gender_count`"
+                    },
+                    {
+                      "name": "gender",
+                      "expression": "`gender`"
+                    }
+                  ],
+                  "filters": [
+                    {
+                      "expression": "`gender` IN (`gender`) OR TRUE"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "mark": {
+                "colors": [
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 3
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 2
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 3
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 4
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 5
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 6
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 7
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 8
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 9
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 10
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": false
+              },
+              "widgetType": "pie",
+              "encodings": {
+                "angle": {
+                  "fieldName": "gender_count",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Gender Ratio"
+                },
+                "color": {
+                  "fieldName": "gender",
+                  "displayName": "Student Gender",
+                  "scale": {
+                    "type": "categorical",
+                    "mappings": [
+                      {
+                        "value": "Female",
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 3
+                        }
+                      }
+                    ]
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 0,
+            "width": 3,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "85f60e65",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "f60aed1c",
+                  "fields": [
+                    {
+                      "name": "EnrollYear",
+                      "expression": "`EnrollYear`"
+                    },
+                    {
+                      "name": "AverageSalary",
+                      "expression": "`AverageSalary`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "mark": {
+                "marker": {
+                  "shape": "circle"
+                },
+                "colors": [
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 3
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 2
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 3
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 4
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 5
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 6
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 7
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 8
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 9
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 10
+                  }
+                ]
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "EnrollYear",
+                  "displayName": "Enrollment Year",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "AverageSalary",
+                  "axis": {
+                    "title": "Average Salary"
+                  },
+                  "scale": {
+                    "type": "quantitative",
+                    "domain": {
+                      "min": 1500,
+                      "max": 3000
+                    }
+                  }
+                },
+                "color": {
+                  "fieldName": "EnrollYear",
+                  "legend": {
+                    "hide": true
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 9,
+            "y": 0,
+            "width": 3,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "ma",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "f81b3c37",
+                  "fields": [
+                    {
+                      "name": "EnrollYear",
+                      "expression": "`EnrollYear`"
+                    },
+                    {
+                      "name": "Major",
+                      "expression": "`Major`"
+                    },
+                    {
+                      "name": "AverageGpa",
+                      "expression": "`AverageGpa`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "showTitle": true,
+                "title": "Gpa By Major Yearly"
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "Major",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "AverageGpa",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "EnrollYear",
+                  "legend": {
+                    "hide": true
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 12,
+            "width": 12,
+            "height": 6
+          }
         }
       ],
       "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "ecba4cdd",
+      "displayName": "Global Filters",
+      "pageType": "PAGE_TYPE_GLOBAL_FILTERS",
       "layoutVersion": "GRID_V1"
     }
   ],
