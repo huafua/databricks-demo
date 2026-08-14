@@ -25,10 +25,12 @@
       "name": "6f4bab4c",
       "displayName": "First_Letter_Count",
       "queryLines": [
-        "with result as (\r\n",
-        "    select left(email,1) as FirstCharacter from students\r\n",
-        ") select FirstCharacter,count(FirstCharacter) from result group by firstcharacter\r\n",
-        "order by count(firstcharacter) desc"
+        "select \r\n",
+        "    upper(left(email,1)) as FirstCharacter,\r\n",
+        "    count(1) as CharacterCount \r\n",
+        "from students \r\n",
+        "group by left(email,1)\r\n",
+        "order by charactercount desc"
       ]
     },
     {
@@ -318,11 +320,11 @@
                       "expression": "`FirstCharacter`"
                     },
                     {
-                      "name": "sum(count(FirstCharacter))",
-                      "expression": "SUM(`count(FirstCharacter)`)"
+                      "name": "CharacterCount",
+                      "expression": "`CharacterCount`"
                     }
                   ],
-                  "disaggregated": false
+                  "disaggregated": true
                 }
               }
             ],
@@ -379,15 +381,15 @@
               "encodings": {
                 "x": {
                   "fieldName": "FirstCharacter",
+                  "axis": {
+                    "hideTitle": true
+                  },
                   "scale": {
                     "type": "categorical"
                   }
                 },
                 "y": {
-                  "fieldName": "sum(count(FirstCharacter))",
-                  "axis": {
-                    "title": "Count Of Each Character"
-                  },
+                  "fieldName": "CharacterCount",
                   "scale": {
                     "type": "quantitative"
                   }
@@ -925,6 +927,9 @@
             ],
             "spec": {
               "version": 3,
+              "frame": {
+                "showTitle": false
+              },
               "mark": {
                 "colors": [
                   {
@@ -973,12 +978,19 @@
               "encodings": {
                 "x": {
                   "fieldName": "height_group",
+                  "axis": {
+                    "hideTitle": false
+                  },
                   "scale": {
                     "type": "categorical"
                   }
                 },
                 "y": {
                   "fieldName": "num",
+                  "axis": {
+                    "hideLabels": false,
+                    "hideTitle": false
+                  },
                   "scale": {
                     "type": "quantitative"
                   }
@@ -986,13 +998,12 @@
                 "color": {
                   "fieldName": "height_group",
                   "legend": {
-                    "position": "bottom"
+                    "position": "bottom",
+                    "hide": true
                   },
+                  "formatTemplate": "{{ @formatted}}",
                   "scale": {
-                    "type": "categorical",
-                    "sort": {
-                      "by": "natural-order"
-                    }
+                    "type": "categorical"
                   }
                 },
                 "label": {
@@ -1024,7 +1035,23 @@
   ],
   "uiSettings": {
     "theme": {
-      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+      "canvasBackgroundColor": {
+        "light": "#FAFAFB",
+        "dark": "#1F272D"
+      },
+      "widgetBackgroundColor": {
+        "light": "#FFFFFF",
+        "dark": "#11171C"
+      },
+      "fontColor": {
+        "light": "#11171C",
+        "dark": "#E8ECF0"
+      },
+      "selectionColor": {
+        "light": "#2E7FDB",
+        "dark": "#8ACAFF"
+      },
+      "widgetHeaderAlignment": "LEFT"
     },
     "applyModeEnabled": false
   }
