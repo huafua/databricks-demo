@@ -69,6 +69,44 @@
         "group by major,enrollmentYear \r\n",
         "order by major,enrollmentYear "
       ]
+    },
+    {
+      "name": "1cdb7440",
+      "displayName": "Active_Status_Statistics",
+      "queryLines": [
+        "select \r\n",
+        "case when isActive = true then 'Active' else 'Inactive' end as ActiveStatus, \r\n",
+        "count(isActive) as Amount\r\n",
+        "from students group by isActive"
+      ]
+    },
+    {
+      "name": "3d7adef0",
+      "displayName": "Height_Group_Distribution",
+      "queryLines": [
+        "WITH bounds AS (\r\n",
+        "  SELECT\r\n",
+        "    MIN(height) AS shortest,\r\n",
+        "    MAX(height) AS tallest,\r\n",
+        "    (MAX(height) - MIN(height)) / 4 AS gap\r\n",
+        "  FROM\r\n",
+        "    students\r\n",
+        ")\r\n",
+        "SELECT\r\n",
+        "  CASE\r\n",
+        "    WHEN s.height BETWEEN b.shortest AND b.shortest + b.gap THEN '1. Short'\r\n",
+        "    WHEN s.height BETWEEN b.shortest + b.gap AND b.shortest + 2 * b.gap THEN '2.Medium'\r\n",
+        "    WHEN s.height BETWEEN b.shortest + 2 * b.gap AND b.shortest + 3 * b.gap THEN '3.Tall'\r\n",
+        "    WHEN s.height BETWEEN b.shortest + 3 * b.gap AND b.tallest THEN '4.Very Tall'\r\n",
+        "  END AS height_group,\r\n",
+        "  COUNT(*) AS num\r\n",
+        "FROM\r\n",
+        "  students s CROSS JOIN bounds b\r\n",
+        "GROUP BY\r\n",
+        "  height_group\r\n",
+        "ORDER BY\r\n",
+        "  height_group"
+      ]
     }
   ],
   "pages": [
@@ -366,7 +404,7 @@
           "position": {
             "x": 0,
             "y": 6,
-            "width": 6,
+            "width": 3,
             "height": 6
           }
         },
@@ -730,12 +768,12 @@
                       "expression": "`EnrollYear`"
                     },
                     {
-                      "name": "Major",
-                      "expression": "`Major`"
-                    },
-                    {
                       "name": "AverageGpa",
                       "expression": "`AverageGpa`"
+                    },
+                    {
+                      "name": "Major",
+                      "expression": "`Major`"
                     }
                   ],
                   "disaggregated": true
@@ -752,6 +790,9 @@
               "encodings": {
                 "x": {
                   "fieldName": "Major",
+                  "axis": {
+                    "hideLabels": false
+                  },
                   "scale": {
                     "type": "categorical"
                   }
@@ -772,7 +813,10 @@
                   }
                 },
                 "label": {
-                  "show": true
+                  "show": true,
+                  "text": {
+                    "fieldName": "AverageGpa"
+                  }
                 }
               },
               "data": {
@@ -783,7 +827,187 @@
           "position": {
             "x": 0,
             "y": 12,
-            "width": 12,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "2d356244",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "1cdb7440",
+                  "fields": [
+                    {
+                      "name": "Amount",
+                      "expression": "`Amount`"
+                    },
+                    {
+                      "name": "ActiveStatus",
+                      "expression": "`ActiveStatus`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "pie",
+              "encodings": {
+                "angle": {
+                  "fieldName": "Amount",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "ActiveStatus",
+                  "scale": {
+                    "type": "categorical",
+                    "mappings": [
+                      {
+                        "value": "Inactive",
+                        "color": "#C0BEBE"
+                      },
+                      {
+                        "value": "Active",
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 3
+                        }
+                      }
+                    ]
+                  }
+                },
+                "label": {
+                  "show": true,
+                  "text": {
+                    "fieldName": "Amount"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 6,
+            "width": 3,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "01dc412f",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "3d7adef0",
+                  "fields": [
+                    {
+                      "name": "height_group",
+                      "expression": "`height_group`"
+                    },
+                    {
+                      "name": "num",
+                      "expression": "`num`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "mark": {
+                "colors": [
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 3
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 2
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 3
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 4
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 5
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 6
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 7
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 8
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 9
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 10
+                  }
+                ]
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "height_group",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "num",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "height_group",
+                  "legend": {
+                    "position": "bottom"
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "natural-order"
+                    }
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 12,
+            "width": 6,
             "height": 6
           }
         }
